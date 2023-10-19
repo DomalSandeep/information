@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <h2>CAESAR CIPHER
+    </h2>
+    <pre><code>
+import random
+LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MSG = "HELLOWORLD"
+key = 3
+    
+i = 0
+cipher = ""
+    
+while i < len(MSG):
+    p = (LETTERS.rfind(MSG[i]))
+    cipher += LETTERS[(p + key) % 26]
+    i += 1
+    
+print(f"Using Caesar Cipher : \nOriginal message : {MSG} \nCipher Text : {cipher}")
+    </code></pre>
+    
+
+<h2>MONOALPHABETIC CIPHER</h2>
+<pre><code>
+import random
+LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MSG = "HELLOWORLD"
+
+i = 0
+cipher = ""
+
+while i < len(MSG):
+    n = random.randint(0, 25)
+
+    if LETTERS.rfind(MSG[i]) != n:
+        cipher += LETTERS[n]
+    i += 1
+
+print(f"Using Monoalphabetic Algorithm : \nOriginal message : {MSG} \nCipher Text : {cipher}")
+</code></pre>
+
+<h2>Vernam Cipher</h2>
+<pre><code>
+import random
+import string
+
+LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+MSG = "HELLOWORLD"
+print("Message:\n", MSG)
+
+# Generate a one-time pad
+ONETIMEPAD = "".join(random.choice(string.ascii_uppercase) for _ in range(len(MSG))
+print("\nONE TIME PAD:\n", ONETIMEPAD)
+
+VERNAM = ""
+
+for i in range(len(MSG)):
+    m1 = LETTERS.rfind(MSG[i])
+    m2 = LETTERS.rfind(ONETIMEPAD[i])
+    s = m1 + m2
+
+    if s >= 26:
+        VERNAM += LETTERS[s - 26]
+    else:
+        VERNAM += LETTERS[s]
+
+print(f"\nUsing Vernam Cipher:\nOriginal message: {MSG}\nCipher Text: {VERNAM}")
+</code></pre>
+
+<h2>DES Algorithm(DES Encryption and Decryption)</h2>
+    <pre><code>
+from Crypto.Cipher import DES
+
+def pad(text):
+    n = len(text) % 8
+    return text + (b' ' * n)
+
+key = b'hello123'
+text1 = b'Python is the Best Language!'
+
+des = DES.new(key, DES.MODE_ECB)
+
+padded_text = pad(text1)
+encrypted_text = des.encrypt(padded_text)
+
+print(encrypted_text)
+print(des.decrypt(encrypted_text))
+    </code></pre>
+
+    <h2>AES Encryption and Decryption</h2>
+    <pre><code>
+from Crypto.Cipher import AES
+
+key = b'Sixteen byte key'
+data = b'hello from other side'
+
+e_cipher = AES.new(key, AES.MODE_EAX)
+e_data = e_cipher.encrypt(data)
+
+d_cipher = AES.new(key, AES.MODE_EAX, e_cipher.nonce)
+d_data = d_cipher.decrypt(e_data)
+
+print("Encryption was: ", e_data)
+print("Original Message was: ", d_data)
+    </code></pre>
+
+    <h2>RSA Encryption and Decryption</h2>
+    <pre><code>
+import rsa
+
+# 1st way to send a message from Bob to Alice using Bob's public key
+(bob_pub, bob_priv) = rsa.newkeys(512)
+message = 'hello Bob!'
+print("Original message: ", message)
+message = message.encode('utf8')
+print()
+
+encrypted = rsa.encrypt(message, bob_pub)
+print("Encrypted message:")
+print(encrypted)
+print()
+
+decrypted = rsa.decrypt(encrypted, bob_priv).decode()
+print("Decrypted message:")
+print(decrypted)
+
+print("\n")
+
+# 2nd way (same as the above just with different variables)
+pubkey, privkey = rsa.newkeys(512)
+string = "hello Bob!"
+
+encrypted = rsa.encrypt(string.encode('utf-8'), pubkey)
+print("The Original string: ", string)
+print()
+
+print("The Encrypted string: ")
+print(encrypted)
+print()
+
+decrypted = rsa.decrypt(encrypted, privkey).decode()
+print("The Decrypted string: ")
+print(decrypted)
+    </code></pre>
+
+
+</body>
+</html>
