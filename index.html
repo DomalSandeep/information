@@ -150,6 +150,44 @@ print("The Decrypted string: ")
 print(decrypted)
     </code></pre>
 
+    <h2>Diffie-Hellman Key Exchange</h2>
+    <pre><code>
+n = int(input("Enter prime number 1: "))
+g = int(input("Enter prime number 2: "))
+x = int(input("Enter Alice's private key: "))
+y = int(input("Enter Bob's private key: "))
+
+A = (g ** x) % n
+print("A = ", A)
+
+B = (g ** y) % n
+print("B = ", B)
+
+K1 = (B ** x) % n
+print("K1 = ", K1)
+
+K2 = (A ** y) % n
+print("K2 = ", K2)
+
+if K1 == K2:
+    print("Keys are equal, so they were transmitted successfully")
+    </code></pre>
+
+    <h2>MD5 Hashing</h2>
+    <pre><code>
+import hashlib
+
+print("Original message: Hello, Python!")
+hash_obj = hashlib.md5(b'Hello, Python!')
+print("MD5:")
+print(hash_obj.hexdigest())
+
+# Input from the user
+mystring = input('\n\nEnter string to hash: ')
+hash_obj = hashlib.md5(mystring.encode())
+print(hash_obj.hexdigest())
+    </code></pre>
+
 
 </body>
 </html>
