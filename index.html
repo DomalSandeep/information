@@ -188,6 +188,87 @@ hash_obj = hashlib.md5(mystring.encode())
 print(hash_obj.hexdigest())
     </code></pre>
 
+<pre><code>
+    <h2>CONFIGURE AAA AUTHENTICATION ON CISCO ROUTERS.
+    </h2>   
+<h3>step 1</h3>
+<h3>R1</h3>
+Router(config-if)#ex
+Router(config)#router ospf 1
+Router(config-router)#network 192.168.1.0 0.0.0.255 area 0
+Router(config-router)#network 10.1.1.0 0.255.255.255 area 0
+<h3>R2</h3>
+Router(config-if)#ex
+Router(config)#router ospf 1
+Router(config-router)#network 192.168.2.0 0.0.0.255 area 0
+Router(config-router)#network 10.1.1.0 0.255.255.255 area 0
+Router(config-router)#network 100.2.2.0 0.255.255.255 area  0
+<h3>R3</h3>
+Router(config-if)#ex
+Router(config)#router ospf 1
+Router(config-router)#network 192.168.3.0 0.0.0.255 area 0
+Router(config-router)#network 100.2.2.0 0.255.255.255 area 0
+
+<h3>step 1</h3>
+<h3>R1</h3>
+Router#en 
+Router#config t
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#username Admin1 secret adminlpa55
+Router(config)#aaa new-model
+Router(config)#aaa authentication login default local
+Router(config)#line console 0
+Router(config-line)#login authentication default
+Router(config-line)#end
+#ex
+
+User Access Verification
+
+Username: Admin1
+Password: 
+Router>
+Router>enable
+Router#configure terminal
+Enter configuration commands, one per line.  End with CNTL/Z.
+Router(config)#hostname R1
+R1(config)#
+R1(config)#
+R1(config)#end
+R1#copy running-config startup-config
+Destination filename [startup-config]? 
+Building configuration...
+[OK]
+R1#
+%SYS-5-CONFIG_I: Configured from console by console
+
+R1#conf t
+Enter configuration commands, one per line.  End with CNTL/Z.
+R1(config)#ip domain-name ccnasecurity.com
+R1(config)#crypto key generate rsa
+The name for the keys will be: R1.ccnasecurity.com
+Choose the size of the key modulus in the range of 360 to 2048 for your
+  General Purpose Keys. Choosing a key modulus greater than 512 may take
+  a few minutes.
+
+How many bits in the modulus [512]: 1024
+% Generating 1024 bit RSA keys, keys will be non-exportable...[OK]
+
+R1(config)#aaa authentication login SSH-LOGIN local
+*Mar 1 0:33:58.509:  %SSH-5-ENABLED: SSH 1.99 has been enabled 
+R1(config)#line vty 0 4
+R1(config-line)#login authentication SSH-LOGIN
+R1(config-line)#transport input ssh
+R1(config-line)#end
+R1#
+
+<h3>Next PC-A->command prompt</h3>
+ssh-1 Admin1 192.168.1.1
+open
+Password:
+password is adminlpa55
+
+</code></pre>
+
 
 </body>
 </html>
